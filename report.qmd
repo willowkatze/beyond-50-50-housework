@@ -1,0 +1,92 @@
+---
+title: "Beyond the 50/50 Split"
+subtitle: "Gender, housework shares, and perceived time scarcity"
+author: "Seminar Research Project · Working Draft"
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  echo: false
+  warning: false
+---
+
+> **Working draft, not a causal analysis.** Data were collected in the 2021 pandemic period. Cognitive/emotional mental load is not directly observed.
+
+```{r}
+source("scripts/run_all.R", encoding = "UTF-8")
+r <- run_project()
+```
+
+## Motivation and hypothesis
+
+Traditional housework studies often focus on **reported shares of time spent on chores**. A newer literature considers the unobserved planning and organizational responsibility associated with household tasks. Our narrow, testable question is whether reported housework shares align with **subjective time insufficiency**, and whether the association differs by gender.
+
+H0 (interaction): After adjusting for pre-specified covariates, the association between housework share and time pressure is the same for women and men (coefficient of `share_centered:female` = 0).
+
+H0 (gender at 50/50): At a reported 50/50 split and the modeled common control values, no adjusted gender gap is observed (coefficient of `female` = 0 in the interacted model).
+
+## Data and sample
+
+```{r}
+knitr::kable(sample_summary(r$clean, r$analysis), caption = "Sample-flow counts (not percentages)")
+```
+
+```{r}
+knitr::kable(gender_summary(r$clean), digits = 2,
+             caption = "Descriptive outcomes by respondent gender")
+```
+
+## Empirical strategy
+
+The primary analysis regresses a **0–4 ordinal time-pressure score** on respondent-reported housework share centered at 50, gender, their interaction, and a limited set of covariates. OLS treats ordinal steps as equidistant for interpretability; consider an ordered-logit robustness analysis after instructor feedback. The data are **self-reported observations**; identifying assumptions required for a causal interpretation are not established.
+
+$$
+TimePressure_i = \alpha + \beta_1 (Share_i - 50) + \beta_2 Female_i +
+\beta_3 (Share_i - 50) Female_i + \gamma' X_i + \epsilon_i
+$$
+
+Working hours are coded as midpoints of survey bands, not exact measurements. Control variables: respondent working hours, partner working hours, children aged 0–17, and age.
+
+## Results: descriptive and adjusted visualization
+
+```{r}
+print(r$figures$fig1)
+```
+
+```{r}
+print(r$figures$fig2)
+```
+
+## First regression table: incremental specifications
+
+```{r}
+# Each model is estimated on the same complete-case sample. Coefficients (SE).
+tab1 <- regression_table(r$models[c("m1", "m2", "m3", "m4")])
+knitr::kable(tab1, caption = "Table 1: Four nested OLS models, common sample. Coefficient (standard error).")
+```
+
+## Second regression table: alternative outcomes
+
+```{r}
+# m4: 0-4 time score; m5: binary high-pressure LPM; m6: 0-10 satisfaction.
+tab2 <- regression_table(r$models[c("m4", "m5", "m6")])
+knitr::kable(tab2,
+             caption = "Table 2: Three outcomes on the same sample. Coefficient (standard error).")
+```
+
+**Interpret cautiously:** The three dependent variables have different scales. Unadjusted, standard OLS errors shown here; assess heteroskedasticity-robust SEs before final presentation. Never interpret p-values as effect sizes.
+
+## Limitations and next steps
+
+1. No direct measure of *mental load* / domestic cognitive labor.
+2. One self-report per person; not validated observations from both members of a couple.
+3. Partnered-only analytical sample and potentially selective survey responses.
+4. Self-report measurement error, simultaneity, unobserved preferences, education, occupation and pandemic conditions.
+5. Hypothesis, controls, coding choices and the potential for outliers need review with the instructor.
+
+## Selected literature
+
+- Barigozzi, F., Biroli, P., Monfardini, C., Montinari, N., Pisanelli, E., & Vitellozzi, S. (2025). *Beyond Time: Unveiling the Invisible Burden of Mental Load.* IZA Discussion Paper 17912. https://www.iza.org/en/publications/dp/17912
+- Weeks, A. C., Kowalewska, H., & Ruppanner, L. (2025). *Take a Load Off? Not for Mothers: Gender, Cognitive Labor, and the Limits of Time and Money.* Socius. https://doi.org/10.1177/23780231251384527
+- See `docs/literature_tracker.csv` for more peer-reviewed sources and verification status.

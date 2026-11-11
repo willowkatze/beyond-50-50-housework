@@ -1,0 +1,23 @@
+name: Research task
+description: Scoped task for one research deliverable or method decision
+title: "research: "
+labels: []
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Research objective
+      description: State the methodological or deliverable objective, not a vague coding task.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: "- [ ] Expected test\n- [ ] Expected document update\n- [ ] Privacy checked"
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and identification limits

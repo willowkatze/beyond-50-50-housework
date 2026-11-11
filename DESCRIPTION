@@ -1,0 +1,15 @@
+Package: beyond5050housework
+Title: Housework Shares and Perceived Time Scarcity (Research Project)
+Version: 0.0.0.9000
+Authors@R: person("Research", "Student", role = c("aut", "cre"), email = "research@example.invalid")
+Description: A non-package reproducible R research project with synthetic-data tests and a private course dataset. Metadata exists to list dependencies for GitHub Actions; do not run R CMD check as a package.
+License: file LICENSE
+Encoding: UTF-8
+Imports:
+    readr,
+    dplyr,
+    ggplot2,
+    tidyr,
+    broom,
+    knitr,
+    testthat

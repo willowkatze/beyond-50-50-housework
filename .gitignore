@@ -1,0 +1,26 @@
+# Survey data: do not commit raw, processed, or participant-level information
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+outputs/*
+!outputs/.gitkeep
+
+# Temporary Quarto/R files and reports
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.quarto/
+*_cache/
+*_files/
+report.html
+report.pdf
+*.Rcheck/
+renv/library/
+renv/staging/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
